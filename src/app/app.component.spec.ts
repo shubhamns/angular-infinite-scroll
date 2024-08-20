@@ -14,19 +14,19 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
-  xit('should create the app', () => {
+  it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  xit(`should have as title 'angular-infinite-scroll'`, () => {
+  it(`should have as title 'angular-infinite-scroll'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('angular-infinite-scroll');
   });
 
-  xit('should render title', () => {
+  it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
