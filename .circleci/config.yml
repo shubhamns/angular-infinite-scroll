@@ -15,10 +15,14 @@ jobs:
           name: Install Chrome Dependencies
           command: |
             sudo apt-get update
+            sudo apt-get install -y curl
+            curl -sS https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+            sudo apt-get update
             sudo apt-get install -y google-chrome-stable
       - run:
           name: Set CHROME_BIN env variable
-          command: export CHROME_BIN=$(which google-chrome-stable)
+          command: export CHROME_BIN=$(which google-chrome)
       - run:
           name: Run tests
           command: npm test --passWithNoTests
