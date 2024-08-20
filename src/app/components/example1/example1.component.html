@@ -1,0 +1,20 @@
+<div class="flex">
+  <h1>Using ngx infinite scroll</h1>
+  <ng-container *ngIf="loading && !stories.length">
+    <div class="text-center">Loading...</div>
+  </ng-container>
+  <ng-container *ngIf="!(loading && !stories.length)">
+    <div
+      infiniteScroll
+      [infiniteScrollDistance]="scrollDistance"
+      [infiniteScrollThrottle]="throttle"
+      (scrolled)="onScroll()"
+    >
+      <ng-container *ngFor="let story of stories">
+        <app-card [story]="story"></app-card>
+      </ng-container>
+      <div class="text-center" *ngIf="hasMore">Loading...</div>
+      <div class="text-center" *ngIf="!loading && !hasMore">No more stories...</div>
+    </div>
+  </ng-container>
+</div>
