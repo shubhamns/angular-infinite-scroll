@@ -1,8 +1,8 @@
-# This config was automatically generated from your source code
-# Stacks detected: deps:node:.
 version: 2.1
+
 orbs:
   node: circleci/node@5
+
 jobs:
   test-node:
     # Install node dependencies and run tests
@@ -12,8 +12,17 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run:
+          name: Install Chrome Dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y google-chrome-stable
+      - run:
+          name: Set CHROME_BIN env variable
+          command: export CHROME_BIN=$(which google-chrome-stable)
+      - run:
           name: Run tests
           command: npm test --passWithNoTests
+
   build-node:
     # Build node project
     executor: node/default
@@ -26,22 +35,24 @@ jobs:
       - run:
           name: Create the ~/artifacts directory if it doesn't exist
           command: mkdir -p ~/artifacts
-      # Copy output to artifacts dir
+      # Copy output to artifacts directory
       - run:
           name: Copy artifacts
           command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
       - store_artifacts:
           path: ~/artifacts
           destination: node-build
+
   deploy:
-    # This is an example deploy job, not actually used by the workflow
+    # Example deploy job (not active in the workflow by default)
     docker:
       - image: cimg/base:stable
     steps:
       # Replace this with steps to deploy to users
       - run:
           name: deploy
-          command: '#e.g. ./deploy.sh'
+          command: '# e.g. ./deploy.sh'
+
 workflows:
   build-and-test:
     jobs:
@@ -49,6 +60,7 @@ workflows:
       - build-node:
           requires:
             - test-node
+    # Uncomment the deploy step if needed in the workflow
     # - deploy:
     #     requires:
     #       - build-node
